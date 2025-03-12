@@ -1,0 +1,152 @@
+1. Получение всех треков с их альбомами и исполнителями
+Этот запрос возвращает список всех треков с информацией о том, к какому альбому и исполнителю они относятся.
+
+SELECT 
+    Tracks.Title AS TrackTitle,
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName
+FROM 
+    Tracks
+INNER JOIN Albums ON Tracks.AlbumID = Albums.AlbumID
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID;
+
+2. Получение всех альбомов определенного исполнителя
+Этот запрос возвращает все альбомы, выпущенные конкретным исполнителем (например, "The Beatles").
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    Albums.ReleaseYear,
+    Genres.Name AS GenreName
+FROM 
+    Albums
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+INNER JOIN Genres ON Albums.GenreID = Genres.GenreID
+WHERE 
+    Artists.Name = 'The Beatles';
+
+3. Получение всех треков определенного жанра
+Этот запрос возвращает все треки, которые относятся к определенному жанру (например, "Rock").
+
+SELECT 
+    Tracks.Title AS TrackTitle,
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName
+FROM 
+    Tracks
+INNER JOIN Albums ON Tracks.AlbumID = Albums.AlbumID
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+INNER JOIN Genres ON Albums.GenreID = Genres.GenreID
+WHERE 
+    Genres.Name = 'Rock';
+
+4. Получение всех альбомов, выпущенных в определенный год
+Этот запрос возвращает все альбомы, выпущенные в указанный год (например, 1982).
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName,
+    Genres.Name AS GenreName
+FROM 
+    Albums
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+INNER JOIN Genres ON Albums.GenreID = Genres.GenreID
+WHERE 
+    Albums.ReleaseYear = 1982;
+
+5. Получение количества треков в каждом альбоме
+Этот запрос возвращает количество треков в каждом альбоме.
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    COUNT(Tracks.TrackID) AS TrackCount
+FROM 
+    Albums
+LEFT JOIN Tracks ON Albums.AlbumID = Tracks.AlbumID
+GROUP BY 
+    Albums.Title;
+
+6. Получение всех альбомов, отсортированных по году выпуска
+Этот запрос возвращает все альбомы, отсортированные по году выпуска (от старых к новым).
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName,
+    Albums.ReleaseYear
+FROM 
+    Albums
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+ORDER BY 
+    Albums.ReleaseYear ASC;
+
+7. Получение всех треков, отсортированных по длительности
+
+SELECT 
+    Tracks.Title AS TrackTitle,
+    Albums.Title AS AlbumTitle,
+    Tracks.Duration
+FROM 
+    Tracks
+INNER JOIN Albums ON Tracks.AlbumID = Albums.AlbumID
+ORDER BY 
+    Tracks.Duration ASC;
+
+8. Получение всех исполнителей и количества их альбомов
+
+SELECT 
+    Artists.Name AS ArtistName,
+    COUNT(Albums.AlbumID) AS AlbumCount
+FROM 
+    Artists
+LEFT JOIN Albums ON Artists.ArtistID = Albums.ArtistID
+GROUP BY 
+    Artists.Name;
+
+9. Получение всех альбомов, которые не имеют треков
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName
+FROM 
+    Albums
+LEFT JOIN Tracks ON Albums.AlbumID = Tracks.AlbumID
+WHERE 
+    Tracks.TrackID IS NULL;
+
+10. Получение всех треков, которые начинаются с определенной буквы
+Этот запрос возвращает все треки, названия которых начинаются с определенной буквы (например, "B").
+
+SELECT 
+    Tracks.Title AS TrackTitle,
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName
+FROM 
+    Tracks
+INNER JOIN Albums ON Tracks.AlbumID = Albums.AlbumID
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+WHERE 
+    Tracks.Title LIKE 'B%';
+
+11. Получение всех альбомов, выпущенных после определенного года
+Этот запрос возвращает все альбомы, выпущенные после указанного года (например, 2000).
+
+SELECT 
+    Albums.Title AS AlbumTitle,
+    Artists.Name AS ArtistName,
+    Albums.ReleaseYear
+FROM 
+    Albums
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+WHERE 
+    Albums.ReleaseYear > 2000;
+
+12. Получение всех треков, которые находятся в альбомах определенного исполнителя
+
+SELECT 
+    Tracks.Title AS TrackTitle,
+    Albums.Title AS AlbumTitle
+FROM 
+    Tracks
+INNER JOIN Albums ON Tracks.AlbumID = Albums.AlbumID
+INNER JOIN Artists ON Albums.ArtistID = Artists.ArtistID
+WHERE 
+    Artists.Name = 'Michael Jackson';
